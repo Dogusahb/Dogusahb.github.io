@@ -56,7 +56,10 @@
       <option value="kadin">Kadın</option>
     </select>
 
-    <label for="miktar">İçilen Bira Miktarı (adet, 330ml):</label>
+    <label for="hacim">Bira Hacmi (ml):</label>
+    <input type="number" id="hacim" placeholder="örn. 330">
+
+    <label for="miktar">İçilen Bira Miktarı (adet):</label>
     <input type="number" id="miktar" step="0.1" placeholder="örn. 2">
 
     <label for="alkolOrani">Bira Alkol Oranı (%):</label>
@@ -73,14 +76,22 @@
       const cinsiyet = document.getElementById('cinsiyet').value;
       const miktar = parseFloat(document.getElementById('miktar').value);
       const alkolOrani = parseFloat(document.getElementById('alkolOrani').value);
+      const hacim = parseFloat(document.getElementById('hacim').value);
 
       const katsayi = cinsiyet === 'erkek' ? 0.68 : 0.55;
-      const toplamHacim = miktar * 330; // ml
+      const toplamHacim = miktar * hacim; // ml
       const safAlkol = toplamHacim * (alkolOrani / 100) * 0.8; // gram cinsinden
 
       const promil = safAlkol / (kilo * katsayi);
+      let yorum = "";
 
-      document.getElementById('sonuc').innerText = `Tahmini Promil: ${promil.toFixed(2)}‰`;
+      if (promil < 0.2) {
+        yorum = "🚗 Geçtin (Yasal sınır altı)";
+      } else {
+        yorum = "⛔️ Kaldın (Yasal sınır üstü)";
+      }
+
+      document.getElementById('sonuc').innerHTML = `Toplam Alınan Alkol: ${safAlkol.toFixed(1)} gr<br>Hesaplanan Promil: ${promil.toFixed(2)}‰<br><strong>${yorum}</strong>`;
     }
   </script>
 </body>
