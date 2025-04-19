@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promil Hesaplayıcı</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      margin: auto;
+      background-color: #f4f4f4;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+    }
+    label, input, select, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    input, select {
+      padding: 0.7rem;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 5px;
+    }
+    #sonuc {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #333;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Promil Hesaplayıcı 🍺</h2>
+    <label for="kilo">Kilonuz (kg):</label>
+    <input type="number" id="kilo" placeholder="örn. 80">
+
+    <label for="cinsiyet">Cinsiyet:</label>
+    <select id="cinsiyet">
+      <option value="erkek">Erkek</option>
+      <option value="kadin">Kadın</option>
+    </select>
+
+    <label for="miktar">İçilen Bira Miktarı (adet, 330ml):</label>
+    <input type="number" id="miktar" step="0.1" placeholder="örn. 2">
+
+    <label for="alkolOrani">Bira Alkol Oranı (%):</label>
+    <input type="number" id="alkolOrani" step="0.1" placeholder="örn. 4.8">
+
+    <button onclick="hesapla()">Hesapla</button>
+
+    <div id="sonuc"></div>
+  </div>
+
+  <script>
+    function hesapla() {
+      const kilo = parseFloat(document.getElementById('kilo').value);
+      const cinsiyet = document.getElementById('cinsiyet').value;
+      const miktar = parseFloat(document.getElementById('miktar').value);
+      const alkolOrani = parseFloat(document.getElementById('alkolOrani').value);
+
+      const katsayi = cinsiyet === 'erkek' ? 0.68 : 0.55;
+      const toplamHacim = miktar * 330; // ml
+      const safAlkol = toplamHacim * (alkolOrani / 100) * 0.8; // gram cinsinden
+
+      const promil = safAlkol / (kilo * katsayi);
+
+      document.getElementById('sonuc').innerText = `Tahmini Promil: ${promil.toFixed(2)}‰`;
+    }
+  </script>
+</body>
+</html>
